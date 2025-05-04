@@ -6,9 +6,6 @@
 #include "node.h"
 #include "compute_spill.h"
 
-#define BUFF_FILENAME_SIZE 256
-#define BUFF_INT_LINE_SIZE 32
-
 int main(int argc, char const *argv[])
 {
     char filename[BUFF_FILENAME_SIZE], line[BUFF_INT_LINE_SIZE], *endptr, ch;
@@ -74,9 +71,10 @@ int main(int argc, char const *argv[])
                 }
             } while (ch == '\n' || ch == '\r' || ch == ' ');
             grid[row][col].type = ch - '0';
+            grid[row][col].concentration = grid[row][col].type == SOURCE ? 1.0 : 0.0;
         }
 
-    compute_spill(nrows, ncols, grid);
+    grid = compute_spill(nrows, ncols, grid);
 
     free(data);
     free(grid);

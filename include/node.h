@@ -11,7 +11,7 @@ enum NodeType
 struct Node
 {
     enum NodeType type;
-    float concentration;
+    double concentration;
 };
 
 #endif

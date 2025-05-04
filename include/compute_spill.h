@@ -3,6 +3,6 @@
 
 #include <stdlib.h>
 
-int compute_spill(size_t nrows, size_t ncols, struct Node **grid);
+struct Node ** compute_spill(size_t nrows, size_t ncols, struct Node **grid);
 
 #endif
