@@ -56,4 +56,6 @@ dkms.conf
 /codeblocks/java--compiler.layout
 /codeblocks/java--compiler.depend
 
+/.vscode
+
 toxic-spill
