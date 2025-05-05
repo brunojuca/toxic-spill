@@ -58,6 +58,6 @@ dkms.conf
 
 /.vscode
 
-/output
+*.ppm
 
 toxic-spill

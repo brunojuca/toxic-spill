@@ -6,7 +6,7 @@
 #include "node.h"
 #include "utils.h"
 
-#define MAX_IT 1000
+#define MAX_IT 10000
 #define ACCURACY 1E-4
 
 struct Node **compute_spill(size_t nrows, size_t ncols, struct Node **grid)
@@ -109,9 +109,11 @@ int print_grid(size_t nrows, size_t ncols, struct Node **grid)
 
 int generate_image(size_t nrows, size_t ncols, struct Node **grid, int it)
 {
-    size_t row, col;
+    size_t row, col, i;
     int r, g, b;
     char filename[BUFF_FILENAME_SIZE];
+    double thresholds[] = {0.3, 0.2, 0.15, 0.07, 0.05, 0.02, 0.01, 0.005, 0.002, 0.0005};
+
     sprintf(filename, "output/%05d.ppm", it);
     FILE *fp = fopen(filename, "w");
     if (!fp)
@@ -134,19 +136,30 @@ int generate_image(size_t nrows, size_t ncols, struct Node **grid, int it)
             {
                 r = 0;
                 g = 100;
-                b = 255;
+                b = 240;
+            }
+            else if (grid[row][col].concentration == 0.0)
+            {
+                r = 240;
+                g = 240;
+                b = 240;
             }
             else
             {
-                r = 255;
-                g = grid[row][col].concentration != 0.0 ? 255 - (int)(grid[row][col].concentration * 255) - 150 : 255;
+                r = 240;
                 b = 0;
+                for (i = 0; i <= 10; i++)
+                {
+                    if (grid[row][col].concentration > thresholds[i] || i == 10)
+                    {
+                        g = i * 24;
+                        break;
+                    }
+                }
             }
-
             fprintf(fp, "%d %d %d  ", r, g, b);
         }
         fprintf(fp, "\n");
     }
-
     fclose(fp);
 }
